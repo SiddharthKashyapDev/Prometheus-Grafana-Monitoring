@@ -104,3 +104,36 @@ wget -qO- http://localhost:9090/-/ready
 ```
 
 The Prometheus UI is available at `http://<VM-IP>:9090`. In **Status → Targets**, the `prometheus` job is `UP`. The PromQL query `up` returns `1`, which means the last scrape succeeded.
+
+## Phase 3 — Node Exporter installation
+
+### Purpose
+
+Node Exporter reads Linux host information and exposes it in Prometheus metric format at `/metrics` on port `9100`. It does not send data to Prometheus. Prometheus pulls the endpoint every 15 seconds.
+
+### Legacy installation audit and upgrade
+
+The VM contained a pre-existing Node Exporter `1.9.1` installation. It was running, but the binary was owned by `nodeusr`, the service ran as `nodeusr`, and its unit used `default.target`. Before changing anything, the prior binary and unit were backed up.
+
+Node Exporter `1.11.1` for `linux/amd64` was downloaded from the official release and verified against its `sha256sums.txt` checksum file. The replacement binary is installed at `/usr/local/bin/node_exporter` with `root:root` ownership and mode `0755`.
+
+### Service design
+
+`node_exporter.service` runs as the non-login `node_exporter` account, waits for the network to be ready, restarts after unexpected failure, and is enabled with `multi-user.target`. It listens on `0.0.0.0:9100`.
+
+The unit uses `NoNewPrivileges`, `PrivateTmp`, `ProtectSystem`, and `ProtectHome`. Node Exporter needs read access to Linux system interfaces such as `/proc` and `/sys`, but it does not need root access or write access to user home directories.
+
+### Prometheus scrape target
+
+The version-controlled `prometheus.yml` now includes:
+
+```yaml
+- job_name: "node_exporter"
+  static_configs:
+    - targets:
+        - "localhost:9100"
+```
+
+Because both programs run on one VM, `localhost:9100` is the correct target. In a multi-server deployment, replace `localhost` with the monitored host’s address or DNS name.
+
+After `promtool` validated the configuration, Prometheus was reloaded with `systemctl reload prometheus`; it was not restarted. In **Status → Targets**, both `prometheus` and `node_exporter` are `UP`.

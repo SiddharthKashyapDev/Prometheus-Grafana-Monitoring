@@ -66,3 +66,24 @@ Correct the specific error, validate again, then run `sudo systemctl restart pro
 ## Prometheus UI does not open from Windows
 
 Confirm the service is active and listening on port `9090`, then check the current VM address with `ip -4 -brief address show ens33`. Use `http://<current-VM-IP>:9090` from the Windows host. VMware NAT is normally sufficient for host-to-guest access.
+
+## Node Exporter target is down
+
+### Checks
+
+```bash
+systemctl is-active node_exporter
+sudo ss -ltnp 'sport = :9100'
+wget -qO- http://localhost:9100/metrics | head
+```
+
+Then check that Prometheus has a target of `localhost:9100`, validate the configuration with `promtool`, and reload Prometheus.
+
+### Common causes
+
+- Node Exporter service is inactive or port `9100` is in use.
+- Target address or port is incorrect.
+- Prometheus configuration was changed but not reloaded.
+- YAML indentation is invalid.
+
+Do not run two exporters on port `9100`; audit an existing installation and use a controlled replacement or upgrade.

@@ -56,3 +56,25 @@ up
 ```
 
 `up` is created for every scrape target. A value of `1` means the latest scrape succeeded; `0` means the target could not be scraped. This is the first health query to use when a target appears down.
+
+## Node Exporter commands
+
+| Command | Purpose | Changes files? |
+| --- | --- | --- |
+| `node_exporter --version` | Shows the Node Exporter version and platform. | No |
+| `wget -qO- http://localhost:9100/metrics` | Reads the local host-metrics endpoint. | No |
+| `systemctl is-active node_exporter` | Confirms the exporter is running. | No |
+| `systemctl is-enabled node_exporter` | Confirms automatic startup is configured. | No |
+| `sudo systemctl reload prometheus` | Reloads validated scrape configuration without stopping Prometheus. | Yes, runtime configuration only |
+
+## Useful host-metric queries
+
+```promql
+up{job="node_exporter"}
+node_memory_MemAvailable_bytes
+rate(node_cpu_seconds_total{mode!="idle"}[5m])
+```
+
+- `up{job="node_exporter"}` should return `1` when Prometheus can scrape Node Exporter.
+- `node_memory_MemAvailable_bytes` is currently available RAM in bytes.
+- The `rate(...)` query calculates per-second non-idle CPU time over five minutes.
