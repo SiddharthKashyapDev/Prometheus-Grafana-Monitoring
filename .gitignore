@@ -1,0 +1,24 @@
+# Secrets and local environment values
+.env
+.env.*
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+
+# Prometheus runtime data and downloaded release archives
+data/
+prometheus-*.tar.gz
+node_exporter-*.tar.gz
+
+# Generated logs and operating-system clutter
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor settings
+.vscode/
+.idea/
