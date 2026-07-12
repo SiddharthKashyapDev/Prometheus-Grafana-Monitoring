@@ -1,0 +1,16 @@
+# Prometheus configuration for the single-VM monitoring lab.
+global:
+  # Prometheus requests metrics from each target every 15 seconds.
+  scrape_interval: 15s
+
+  # Prometheus evaluates configured recording and alerting rules every 15 seconds.
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Prometheus monitors its own metrics endpoint before Node Exporter is added.
+  - job_name: "prometheus"
+    static_configs:
+      - targets:
+          - "localhost:9090"
+        labels:
+          environment: "lab"

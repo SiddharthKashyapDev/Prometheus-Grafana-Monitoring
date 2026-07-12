@@ -43,3 +43,26 @@ sudo journalctl -u SERVICE_NAME -n 50 --no-pager
 ```
 
 Check the service account, executable path, file ownership, listening port, and configuration syntax before repeatedly restarting the service.
+
+## Prometheus does not start
+
+### Checks
+
+```bash
+sudo systemd-analyze verify /etc/systemd/system/prometheus.service
+sudo -u prometheus promtool check config /etc/prometheus/prometheus.yml
+sudo journalctl -u prometheus -n 50 --no-pager
+```
+
+### Common causes
+
+- YAML indentation error or tabs in `prometheus.yml`.
+- The `prometheus` account cannot read the configuration or write `/var/lib/prometheus`.
+- Port `9090` is already occupied.
+- The binary path in `ExecStart` is incorrect.
+
+Correct the specific error, validate again, then run `sudo systemctl restart prometheus` once.
+
+## Prometheus UI does not open from Windows
+
+Confirm the service is active and listening on port `9090`, then check the current VM address with `ip -4 -brief address show ens33`. Use `http://<current-VM-IP>:9090` from the Windows host. VMware NAT is normally sufficient for host-to-guest access.

@@ -36,3 +36,23 @@ sudo journalctl -u SERVICE_NAME -n 50 --no-pager
 - `enable --now` configures startup at boot and starts the service now.
 - `status` gives a quick health view.
 - `journalctl -u` reads logs for one named unit.
+
+## Prometheus commands
+
+| Command | Purpose | Changes files? |
+| --- | --- | --- |
+| `prometheus --version` | Shows installed Prometheus build information. | No |
+| `promtool check config /etc/prometheus/prometheus.yml` | Validates Prometheus YAML and configuration semantics. | No |
+| `sudo systemd-analyze verify /etc/systemd/system/prometheus.service` | Validates the systemd unit file. | No |
+| `sudo systemctl enable --now prometheus` | Enables Prometheus at boot and starts it immediately. | Yes, systemd state and runtime data |
+| `systemctl is-active prometheus` | Confirms that the service is running. | No |
+| `systemctl is-enabled prometheus` | Confirms that startup at boot is configured. | No |
+| `wget -qO- http://localhost:9090/-/ready` | Checks the local Prometheus readiness endpoint. | No |
+
+## First PromQL query
+
+```promql
+up
+```
+
+`up` is created for every scrape target. A value of `1` means the latest scrape succeeded; `0` means the target could not be scraped. This is the first health query to use when a target appears down.

@@ -2,7 +2,7 @@
 
 A hands-on DevOps portfolio project that monitors an Ubuntu 26.04 LTS VMware virtual machine with Prometheus, Node Exporter, and Grafana. Everything is installed manually with native Linux packages and `systemd` services—no Docker, Kubernetes, or Compose.
 
-> **Project status:** Phase 1 complete — host, networking, updates, permissions, and `systemd` verified. Prometheus installation is next.
+> **Project status:** Phase 2 complete — Prometheus 3.11.3 is installed, managed by `systemd`, and self-scraping on port 9090. Node Exporter is next.
 
 ## What this project demonstrates
 
@@ -32,7 +32,7 @@ Prometheus-Grafana-Monitoring/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
-├── prometheus.yml                 # Added when Prometheus is configured
+├── prometheus.yml                 # Version-controlled Prometheus configuration
 ├── docs/
 │   ├── phase-0-planning.md
 │   ├── installation.md
@@ -42,6 +42,8 @@ Prometheus-Grafana-Monitoring/
 │   └── commands.md
 ├── screenshots/                    # PNG/JPG evidence only; never credentials
 └── dashboards/                     # Exported Grafana dashboard JSON
+└── systemd/
+    └── prometheus.service           # Version-controlled service unit
 ```
 
 ## Technology choices
@@ -58,7 +60,7 @@ Prometheus-Grafana-Monitoring/
 
 1. **Phase 0 — Planning and Git foundation**: repository, scope, VM plan, and Git workflow.
 2. **Phase 1 — Ubuntu foundation**: installation, network checks, updates, Linux basics, permissions, and systemd. **Complete.**
-3. **Phase 2 — Prometheus**: native installation, least-privilege user, directories, configuration, and service.
+3. **Phase 2 — Prometheus**: native installation, least-privilege user, directories, configuration, and service. **Complete.**
 4. **Phase 3 — Node Exporter**: install it as a system service and validate host metrics.
 5. **Phase 4 — Scraping**: configure and reload Prometheus, inspect targets, and introduce alert-rule concepts.
 6. **Phase 5 — Grafana**: native installation, secure first login, data source, dashboard, panels, and export.
