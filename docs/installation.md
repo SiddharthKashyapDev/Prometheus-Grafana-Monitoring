@@ -137,3 +137,48 @@ The version-controlled `prometheus.yml` now includes:
 Because both programs run on one VM, `localhost:9100` is the correct target. In a multi-server deployment, replace `localhost` with the monitored host’s address or DNS name.
 
 After `promtool` validated the configuration, Prometheus was reloaded with `systemctl reload prometheus`; it was not restarted. In **Status → Targets**, both `prometheus` and `node_exporter` are `UP`.
+
+## Phase 4 — Scraping, recording rules, and alerts
+
+### Scrape configuration
+
+Prometheus loads two static targets every 15 seconds:
+
+| Job | Target | Role |
+| --- | --- | --- |
+| `prometheus` | `localhost:9090` | Prometheus self-monitoring metrics. |
+| `node_exporter` | `localhost:9100` | Linux host CPU, memory, filesystem, network, and other system metrics. |
+
+A static target is written directly in `prometheus.yml`. This is suitable for the single-VM lab. Larger environments commonly use service discovery rather than manually listing every address.
+
+### Rule configuration
+
+`prometheus.yml` loads `/etc/prometheus/rules/*.yml`. The rule file is stored in the repository as `rules/node-alerts.yml` and installed as `/etc/prometheus/rules/node-alerts.yml` with `root:prometheus` ownership and `0640` mode.
+
+The `node_exporter_rules` group runs every 15 seconds and contains three rules:
+
+| Rule | Type | Meaning |
+| --- | --- | --- |
+| `instance:node_cpu_utilisation:ratio` | Recording | Stores non-idle CPU utilisation as a ratio from 0 to 1. |
+| `NodeExporterDown` | Alert | Fires after Node Exporter cannot be scraped for two minutes. |
+| `HostHighCPUUsage` | Alert | Fires after CPU usage exceeds 85% for five minutes. |
+
+A recording rule precomputes a query, making repeated dashboard queries simpler and usually faster. An alerting rule changes state from inactive to pending and then firing. These alerts are visible in Prometheus, but no Alertmanager is configured, so no email, chat, or other notification is sent.
+
+### Safe configuration workflow
+
+Every Prometheus configuration change follows this sequence:
+
+```bash
+sudo -u prometheus promtool check rules /etc/prometheus/rules/node-alerts.yml
+sudo -u prometheus promtool check config /etc/prometheus/prometheus.yml
+sudo systemctl reload prometheus
+```
+
+Validation happens as the restricted service account. Only after both checks pass is Prometheus reloaded. A reload sends the process a signal to read the configuration again; it does not discard the in-memory service or stored time-series data.
+
+### Verification evidence
+
+The Prometheus **Rule health** page shows all three rules in the `node_exporter_rules` group with an `OK` evaluation result, running every 15 seconds.
+
+![Prometheus rules healthy](../screenshots/prometheus-rules-healthy.jpeg)

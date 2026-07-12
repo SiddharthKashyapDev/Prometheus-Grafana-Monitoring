@@ -87,3 +87,23 @@ Then check that Prometheus has a target of `localhost:9100`, validate the config
 - YAML indentation is invalid.
 
 Do not run two exporters on port `9100`; audit an existing installation and use a controlled replacement or upgrade.
+
+## Prometheus rules do not appear or show an error
+
+### Checks
+
+```bash
+sudo -u prometheus promtool check rules /etc/prometheus/rules/node-alerts.yml
+sudo -u prometheus promtool check config /etc/prometheus/prometheus.yml
+sudo systemctl reload prometheus
+sudo journalctl -u prometheus -n 50 --no-pager
+```
+
+### Common causes
+
+- The `rule_files` path does not match the rule file.
+- The service account cannot traverse `/etc/prometheus/rules` or read the file.
+- Invalid YAML indentation or tabs.
+- A PromQL expression uses an absent metric or invalid label matcher.
+
+Validate both the individual rule file and the main configuration before every reload.

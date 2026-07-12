@@ -78,3 +78,19 @@ rate(node_cpu_seconds_total{mode!="idle"}[5m])
 - `up{job="node_exporter"}` should return `1` when Prometheus can scrape Node Exporter.
 - `node_memory_MemAvailable_bytes` is currently available RAM in bytes.
 - The `rate(...)` query calculates per-second non-idle CPU time over five minutes.
+
+## Rule-validation commands
+
+| Command | Purpose | Changes files? |
+| --- | --- | --- |
+| `promtool check rules /etc/prometheus/rules/node-alerts.yml` | Validates rule-file YAML and rule syntax. | No |
+| `promtool check config /etc/prometheus/prometheus.yml` | Validates the main configuration and referenced rule files. | No |
+| `sudo systemctl reload prometheus` | Applies validated scrape and rule changes without a service restart. | Runtime configuration only |
+
+## Rule query
+
+```promql
+instance:node_cpu_utilisation:ratio{job="node_exporter"} * 100
+```
+
+This converts the recorded ratio to a percentage. For example, `0.12` becomes `12%` non-idle CPU utilisation.

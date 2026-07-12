@@ -1,0 +1,28 @@
+groups:
+  - name: node_exporter_rules
+    # Rules in this group are evaluated every 15 seconds.
+    interval: 15s
+    rules:
+      # Precompute non-idle CPU utilisation as a ratio from 0 to 1.
+      - record: instance:node_cpu_utilisation:ratio
+        expr: 1 - avg by (instance, job, environment) (rate(node_cpu_seconds_total{job="node_exporter", mode="idle"}[5m]))
+
+      # Becomes pending after Node Exporter is unavailable, then fires after 2 minutes.
+      - alert: NodeExporterDown
+        expr: up{job="node_exporter"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Node Exporter is down on {{ $labels.instance }}"
+          description: "Prometheus has been unable to scrape Node Exporter for more than two minutes."
+
+      # A conservative lab threshold; it remains inactive during normal VM use.
+      - alert: HostHighCPUUsage
+        expr: instance:node_cpu_utilisation:ratio{job="node_exporter"} > 0.85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "Non-idle CPU utilisation has exceeded 85% for more than five minutes."

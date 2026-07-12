@@ -6,6 +6,10 @@ global:
   # Prometheus evaluates configured recording and alerting rules every 15 seconds.
   evaluation_interval: 15s
 
+# Prometheus loads recording and alerting rules from these files.
+rule_files:
+  - "/etc/prometheus/rules/*.yml"
+
 scrape_configs:
   # Prometheus monitors its own metrics endpoint before Node Exporter is added.
   - job_name: "prometheus"
