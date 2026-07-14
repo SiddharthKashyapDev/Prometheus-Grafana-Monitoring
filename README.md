@@ -67,7 +67,7 @@ Prometheus-Grafana-Monitoring/
 5. **Phase 4 — Scraping**: configure and reload Prometheus, inspect targets, and introduce alert-rule concepts. **Complete.**
 6. **Phase 5 — Grafana**: native installation, secure first login, data source, dashboard, panels, and export. **Complete.**
 7. **Phase 6 — Portfolio polish**: screenshots, verified architecture, troubleshooting, and repository cleanup. **Complete.**
-8. **Phase 7 — Interview practice**: explain every component and practise viva questions.
+8. **Phase 7 — Interview practice**: explain every component and practise viva questions. **Complete.**
 
 ## Evidence standards
 
@@ -79,6 +79,8 @@ Prometheus-Grafana-Monitoring/
 ## Getting started
 
 Read [the Phase 0 plan](docs/phase-0-planning.md) before changing the Ubuntu VM. At the end of each phase, commit only the files and screenshots created in that phase.
+
+For a concise project explanation and viva preparation, read the [interview and viva guide](docs/interview-questions.md).
 
 ## License
 
