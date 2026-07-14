@@ -107,3 +107,29 @@ sudo journalctl -u prometheus -n 50 --no-pager
 - A PromQL expression uses an absent metric or invalid label matcher.
 
 Validate both the individual rule file and the main configuration before every reload.
+
+## Grafana service is not available
+
+### Checks
+
+```bash
+systemctl is-active grafana-server
+sudo ss -ltnp 'sport = :3000'
+wget -qO- http://localhost:3000/api/health
+sudo journalctl -u grafana-server -n 50 --no-pager
+```
+
+### Common causes
+
+- The service is installed but disabled or inactive.
+- Port `3000` is already in use.
+- The VM IP address changed after reboot; check it with `ip -4 -brief address show ens33`.
+- Grafana is healthy locally but VMware networking prevents host-to-VM access.
+
+## Grafana cannot connect to Prometheus
+
+Use `http://localhost:9090` as the data source URL when both services run on one VM. Check `systemctl is-active prometheus`, then verify the Prometheus readiness endpoint with `wget -qO- http://localhost:9090/-/ready`. Do not use the Windows host address for this data source.
+
+## Imported Node Exporter dashboard has empty panels
+
+Confirm the dashboard variables are set to `job=node_exporter` and `instance=localhost:9100`. Some dashboard 1860 panels depend on optional Node Exporter collectors and can show `N/A` when those collectors are not enabled; verify the core CPU, memory, disk, and network panels first.

@@ -2,7 +2,7 @@
 
 A hands-on DevOps portfolio project that monitors an Ubuntu 26.04 LTS VMware virtual machine with Prometheus, Node Exporter, and Grafana. Everything is installed manually with native Linux packages and `systemd` services—no Docker, Kubernetes, or Compose.
 
-> **Project status:** Phase 4 complete — Prometheus scrapes both targets and evaluates validated recording and alerting rules every 15 seconds. Grafana is next.
+> **Project status:** Phase 5 complete — Grafana 13.1.0 visualizes live Prometheus and Node Exporter metrics through the exported Linux Server Monitoring dashboard.
 
 ## What this project demonstrates
 
@@ -41,7 +41,8 @@ Prometheus-Grafana-Monitoring/
 │   ├── interview-questions.md      # Completed in Phase 7
 │   └── commands.md
 ├── screenshots/                    # PNG/JPG evidence only; never credentials
-└── dashboards/                     # Exported Grafana dashboard JSON
+├── dashboards/
+│   └── linux-server-monitoring.json # Exported Grafana dashboard JSON
 └── systemd/
     ├── prometheus.service            # Version-controlled service unit
     └── node_exporter.service         # Version-controlled service unit
@@ -64,7 +65,7 @@ Prometheus-Grafana-Monitoring/
 3. **Phase 2 — Prometheus**: native installation, least-privilege user, directories, configuration, and service. **Complete.**
 4. **Phase 3 — Node Exporter**: install it as a system service and validate host metrics. **Complete.**
 5. **Phase 4 — Scraping**: configure and reload Prometheus, inspect targets, and introduce alert-rule concepts. **Complete.**
-6. **Phase 5 — Grafana**: native installation, secure first login, data source, dashboard, panels, and export.
+6. **Phase 5 — Grafana**: native installation, secure first login, data source, dashboard, panels, and export. **Complete.**
 7. **Phase 6 — Portfolio polish**: screenshots, diagrams, troubleshooting, and repository cleanup.
 8. **Phase 7 — Interview practice**: explain every component and practise viva questions.
 

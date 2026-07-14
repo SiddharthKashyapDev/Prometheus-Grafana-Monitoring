@@ -94,3 +94,23 @@ instance:node_cpu_utilisation:ratio{job="node_exporter"} * 100
 ```
 
 This converts the recorded ratio to a percentage. For example, `0.12` becomes `12%` non-idle CPU utilisation.
+
+## Grafana commands and endpoints
+
+| Command or endpoint | Purpose | Changes files? |
+| --- | --- | --- |
+| `sudo systemctl enable --now grafana-server` | Starts Grafana and enables it at boot. | Yes, systemd state and Grafana runtime data |
+| `systemctl is-active grafana-server` | Confirms Grafana is running. | No |
+| `systemctl is-enabled grafana-server` | Confirms Grafana starts after reboot. | No |
+| `wget -qO- http://localhost:3000/api/health` | Checks Grafana and its database health. | No |
+| `http://<VM-IP>:3000` | Opens Grafana from the Windows host browser. | No |
+
+## Grafana data source and dashboard settings
+
+| Setting | Value | Reason |
+| --- | --- | --- |
+| Data source type | Prometheus | Grafana queries the stored metrics. |
+| Data source URL | `http://localhost:9090` | Both services run on the same VM. |
+| Imported dashboard | `1860` Node Exporter Full | Provides a broad Linux-host monitoring view. |
+| Job variable | `node_exporter` | Matches the project’s Prometheus scrape job. |
+| Instance variable | `localhost:9100` | Matches the local Node Exporter target. |

@@ -182,3 +182,43 @@ Validation happens as the restricted service account. Only after both checks pas
 The Prometheus **Rule health** page shows all three rules in the `node_exporter_rules` group with an `OK` evaluation result, running every 15 seconds.
 
 ![Prometheus rules healthy](../screenshots/prometheus-rules-healthy.jpeg)
+
+## Phase 5 — Grafana installation and dashboard
+
+### Installed service
+
+Grafana OSS `13.1.0` is installed as a native Ubuntu package. The package-provided `grafana-server.service` runs as the `grafana` account and includes systemd hardening such as `NoNewPrivileges`, `PrivateTmp`, `PrivateDevices`, and `ProtectHome`.
+
+The service was enabled and started with:
+
+```bash
+sudo systemctl enable --now grafana-server
+```
+
+It listens on port `3000` and is reachable from the Windows host at `http://<VM-IP>:3000`. The Grafana health endpoint at `http://localhost:3000/api/health` verifies that the service and its embedded database are healthy.
+
+### Initial access
+
+Grafana’s first login uses the default `admin` account. The initial password was changed during first sign-in and is intentionally not recorded in Git, screenshots, or documentation.
+
+### Prometheus data source
+
+Grafana connects to Prometheus using the server-side URL:
+
+```text
+http://localhost:9090
+```
+
+`localhost` is correct because Grafana and Prometheus run on the same VM. Grafana queries Prometheus with PromQL, while Prometheus continues to scrape Node Exporter independently.
+
+### Dashboard
+
+Grafana dashboard `1860` (**Node Exporter Full**) was imported, configured with `job=node_exporter` and `instance=localhost:9100`, and saved as **Linux Server Monitoring**. Core CPU, memory, disk, and network panels display live Linux-host metrics.
+
+The exported dashboard is stored at `dashboards/linux-server-monitoring.json`. It contains 31 dashboard panels and uses the Classic Grafana JSON model, which can be imported into another Grafana instance.
+
+![Grafana Linux Server Monitoring dashboard](../screenshots/grafana-linux-server-dashboard.jpeg)
+
+### Note on optional Node Exporter collectors
+
+Dashboard 1860 has panels for optional collectors such as systemd and process metrics. A panel with `N/A` does not automatically indicate failure; it can mean the corresponding optional collector is not enabled. The core CPU, memory, disk, and network panels are sufficient for this lab and are verified with live data.
