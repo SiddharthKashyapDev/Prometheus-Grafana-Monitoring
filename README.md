@@ -1,8 +1,6 @@
 # Prometheus & Grafana Linux Monitoring
 
-A hands-on DevOps portfolio project that monitors an Ubuntu 26.04 LTS VMware virtual machine with Prometheus, Node Exporter, and Grafana. Everything is installed manually with native Linux packages and `systemd` services—no Docker, Kubernetes, or Compose.
-
-> **Project status:** Phase 6 complete — the monitoring stack is verified end-to-end, documented, and ready to present as a portfolio project.
+A hands-on DevOps project that monitors an Ubuntu VMware virtual machine with Prometheus, Node Exporter, and Grafana. Everything is installed manually with native Linux packages and `systemd` services— and no Docker, Kubernetes, or Compose had been used
 
 ## What this project demonstrates
 
@@ -23,7 +21,7 @@ flowchart LR
     N -->|"reads"| L["Ubuntu VM host metrics"]
 ```
 
-All three services will initially run on the same Ubuntu VM. The design still uses their real network endpoints, so it can later be expanded to monitor additional servers.
+All three services will initially run on the same Ubuntu VM. The design still uses their real network endpoints, so it can later be expanded to monitor additional servers acording to the need
 
 ## Planned repository layout
 
@@ -36,11 +34,11 @@ Prometheus-Grafana-Monitoring/
 ├── docs/
 │   ├── phase-0-planning.md
 │   ├── installation.md
-│   ├── architecture.md             # Completed with verified details in Phase 6
+│   ├── architecture.md
 │   ├── troubleshooting.md
-│   ├── interview-questions.md      # Completed in Phase 7
+│   ├── interview-questions.md
 │   └── commands.md
-├── screenshots/                    # PNG/JPG evidence only; never credentials
+├── screenshots/                    # PNG/JPG
 ├── dashboards/
 │   └── linux-server-monitoring.json # Exported Grafana dashboard JSON
 └── systemd/
@@ -69,18 +67,11 @@ Prometheus-Grafana-Monitoring/
 7. **Phase 6 — Portfolio polish**: screenshots, verified architecture, troubleshooting, and repository cleanup. **Complete.**
 8. **Phase 7 — Interview practice**: explain every component and practise viva questions. **Complete.**
 
-## Evidence standards
-
-- Record the Ubuntu release, VM IP address, and package/software versions used. This lab uses a GUI-enabled Ubuntu 26.04 LTS VM; the monitoring services remain native `systemd` services.
-- Verify each service with `systemctl`, its local metrics or web endpoint, and Prometheus/Grafana UI where appropriate.
-- Never commit passwords, tokens, private IPs from a sensitive environment, downloaded archives, generated databases, or logs.
-- Add screenshots only after obscuring passwords, tokens, personal information, and public IP addresses if relevant.
-
 ## Getting started
 
-Read [the Phase 0 plan](docs/phase-0-planning.md) before changing the Ubuntu VM. At the end of each phase, commit only the files and screenshots created in that phase.
+Read [the Phase 0 plan](docs/phase-0-planning.md) for the idea of the project and also to get where to start it.
 
-For a concise project explanation and viva preparation, read the [interview and viva guide](docs/interview-questions.md).
+For a deep project explanation , read the [interview and viva guide](docs/interview-questions.md).
 
 ## License
 

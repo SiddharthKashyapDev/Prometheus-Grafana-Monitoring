@@ -1,17 +1,16 @@
-# Prometheus configuration for the single-VM monitoring lab.
 global:
-  # Prometheus requests metrics from each target every 15 seconds.
+  # Prometheus requests metrics from each target every 15 seconds This can be changes according to your need
   scrape_interval: 15s
 
-  # Prometheus evaluates configured recording and alerting rules every 15 seconds.
+  # Prometheus evaluates configured recording and alerting rules same as above
   evaluation_interval: 15s
 
-# Prometheus loads recording and alerting rules from these files.
+# Prometheus loads recording and alerting rules from these files
 rule_files:
   - "/etc/prometheus/rules/*.yml"
 
 scrape_configs:
-  # Prometheus monitors its own metrics endpoint before Node Exporter is added.
+  # Prometheus monitors its own metrics endpoint before Node Exporter is added
   - job_name: "prometheus"
     static_configs:
       - targets:
@@ -19,7 +18,7 @@ scrape_configs:
         labels:
           environment: "lab"
 
-  # Node Exporter exposes Linux host metrics for Prometheus to scrape.
+  # Node Exporter exposes Linux host metrics for Prometheus to scrape
   - job_name: "node_exporter"
     static_configs:
       - targets:
