@@ -50,13 +50,13 @@ Prometheus-Grafana-Monitoring/
 
 ## Technology choices
 
-| Component | Role | Default port |
-| --- | --- | --- |
-| Ubuntu 26.04 LTS VMware VM | Linux system being monitored | — |
-| Node Exporter | Exposes host metrics in Prometheus format | `9100` |
-| Prometheus | Scrapes and stores time-series metrics | `9090` |
-| Grafana | Visualizes metrics with dashboards | `3000` |
-| systemd | Starts, stops, restarts, and supervises services | — |
+| Component                  | Role                                             | Default port |
+| -------------------------- | ------------------------------------------------ | ------------ |
+| Ubuntu 26.04 LTS VMware VM | Linux system being monitored                     | —            |
+| Node Exporter              | Exposes host metrics in Prometheus format        | `9100`       |
+| Prometheus                 | Scrapes and stores time-series metrics           | `9090`       |
+| Grafana                    | Visualizes metrics with dashboards               | `3000`       |
+| systemd                    | Starts, stops, restarts, and supervises services | —            |
 
 ## Phased learning roadmap
 
@@ -84,4 +84,4 @@ For a concise project explanation and viva preparation, read the [interview and 
 
 ## License
 
-This repository uses the MIT License. Before making the repository public, replace the placeholder copyright holder in [LICENSE](LICENSE).
+This repository uses the MIT [LICENSE](LICENSE).
