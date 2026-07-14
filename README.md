@@ -2,7 +2,7 @@
 
 A hands-on DevOps portfolio project that monitors an Ubuntu 26.04 LTS VMware virtual machine with Prometheus, Node Exporter, and Grafana. Everything is installed manually with native Linux packages and `systemd` services—no Docker, Kubernetes, or Compose.
 
-> **Project status:** Phase 5 complete — Grafana 13.1.0 visualizes live Prometheus and Node Exporter metrics through the exported Linux Server Monitoring dashboard.
+> **Project status:** Phase 6 complete — the monitoring stack is verified end-to-end, documented, and ready to present as a portfolio project.
 
 ## What this project demonstrates
 
@@ -66,7 +66,7 @@ Prometheus-Grafana-Monitoring/
 4. **Phase 3 — Node Exporter**: install it as a system service and validate host metrics. **Complete.**
 5. **Phase 4 — Scraping**: configure and reload Prometheus, inspect targets, and introduce alert-rule concepts. **Complete.**
 6. **Phase 5 — Grafana**: native installation, secure first login, data source, dashboard, panels, and export. **Complete.**
-7. **Phase 6 — Portfolio polish**: screenshots, diagrams, troubleshooting, and repository cleanup.
+7. **Phase 6 — Portfolio polish**: screenshots, verified architecture, troubleshooting, and repository cleanup. **Complete.**
 8. **Phase 7 — Interview practice**: explain every component and practise viva questions.
 
 ## Evidence standards

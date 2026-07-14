@@ -222,3 +222,11 @@ The exported dashboard is stored at `dashboards/linux-server-monitoring.json`. I
 ### Note on optional Node Exporter collectors
 
 Dashboard 1860 has panels for optional collectors such as systemd and process metrics. A panel with `N/A` does not automatically indicate failure; it can mean the corresponding optional collector is not enabled. The core CPU, memory, disk, and network panels are sufficient for this lab and are verified with live data.
+
+## Phase 6 — End-to-end verification
+
+On 14 July 2026, all three native services were confirmed `active` and `enabled`: `prometheus`, `node_exporter`, and `grafana-server`.
+
+Prometheus returned `Prometheus Server is Ready.` from `/-/ready`. Grafana's `/api/health` endpoint reported an `ok` database status on version `13.1.0`. Finally, the Prometheus `up` query returned `1` for both the Prometheus target and the `node_exporter` target. This verifies the full monitoring path rather than only confirming that individual processes exist.
+
+The verified topology, component responsibilities, data flow, and lab boundaries are recorded in [architecture.md](architecture.md).
